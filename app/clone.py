@@ -6,17 +6,27 @@ import torch
 from qwen_tts import Qwen3TTSModel
 
 
+def detect_attn_implementation():
+  try:
+    import flash_attn  # noqa: F401
+
+    return "flash_attention_2"
+  except ImportError:
+    return "sdpa"
+
+
 def load_model(model_name: str) -> Qwen3TTSModel:
   if not torch.cuda.is_available():
     print("ERROR: CUDA GPU가 필요합니다. NVIDIA GPU가 있는 머신에서 실행하세요.")
     sys.exit(1)
 
-  print(f"Loading model: {model_name}")
+  attn_impl = detect_attn_implementation()
+  print(f"Loading model: {model_name} (attn: {attn_impl})")
   return Qwen3TTSModel.from_pretrained(
     model_name,
     device_map="cuda:0",
     dtype=torch.bfloat16,
-    attn_implementation="flash_attention_2",
+    attn_implementation=attn_impl,
   )
 
 

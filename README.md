@@ -6,11 +6,13 @@ Qwen3-TTS를 활용한 음성 복제(Voice Cloning) 프로젝트입니다.
 
 - Python 3.12+
 - [uv](https://docs.astral.sh/uv/) (패키지 관리)
-- NVIDIA GPU + CUDA
+- NVIDIA GPU + CUDA (음성 복제 실행에 필요)
+
+> macOS는 오디오 추출 등 GPU가 필요 없는 작업만 가능합니다. 음성 복제는 NVIDIA GPU가 있는 Linux/Windows 머신에서 실행하세요.
 
 ## 환경 설정
 
-### macOS
+### macOS (오디오 추출 전용)
 
 ```bash
 git clone https://github.com/YOUR_USERNAME/CloneVoiceFromQwen3TTS.git
@@ -18,9 +20,9 @@ cd CloneVoiceFromQwen3TTS
 uv sync
 ```
 
-### Windows (PowerShell)
+### Linux / Windows (음성 복제)
 
-실행 정책 설정 (가상환경 활성화에 필요):
+Windows PowerShell의 경우 실행 정책 설정이 필요합니다:
 
 ```powershell
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
@@ -28,7 +30,7 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 프로젝트 설정:
 
-```powershell
+```bash
 git clone https://github.com/YOUR_USERNAME/CloneVoiceFromQwen3TTS.git
 cd CloneVoiceFromQwen3TTS
 uv sync
@@ -38,7 +40,7 @@ uv sync
 
 레퍼런스 오디오 파일(WAV)과 해당 대사 텍스트를 준비한 뒤 실행합니다.
 
-> 레퍼런스 오디오가 없다면 [YouTube에서 추출](utility/README.md)할 수 있습니다.
+> 레퍼런스 오디오가 없다면 [YouTube에서 추출](utility/README.md)할 수 있습니다. 단, 타인의 음성을 사용할 경우 저작권 및 초상권 문제가 발생할 수 있으니 주의하세요.
 
 macOS / Linux:
 
