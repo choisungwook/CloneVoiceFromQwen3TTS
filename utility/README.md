@@ -11,14 +11,14 @@ YouTube 영상에서 레퍼런스 오디오용 WAV 파일을 추출합니다. [f
 macOS / Linux:
 
 ```bash
-uv run python clone_my_voice.py extract-audio \
+uv run python -m app.clone extract-audio \
     --url "https://youtu.be/YOUR_VIDEO_ID"
 ```
 
 Windows (PowerShell):
 
 ```powershell
-uv run python clone_my_voice.py extract-audio `
+uv run python -m app.clone extract-audio `
     --url "https://youtu.be/YOUR_VIDEO_ID"
 ```
 
