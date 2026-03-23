@@ -45,7 +45,7 @@ uv sync
 macOS / Linux:
 
 ```bash
-uv run python clone_my_voice.py clone \
+uv run python -m app.clone clone \
     --ref-audio ref_audio/my_voice.wav \
     --ref-text "레퍼런스 구간의 정확한 대사" \
     --text "복제된 목소리로 말할 텍스트" \
@@ -55,7 +55,7 @@ uv run python clone_my_voice.py clone \
 Windows (PowerShell):
 
 ```powershell
-uv run python clone_my_voice.py clone `
+uv run python -m app.clone clone `
     --ref-audio ref_audio\my_voice.wav `
     --ref-text "레퍼런스 구간의 정확한 대사" `
     --text "복제된 목소리로 말할 텍스트" `
@@ -64,15 +64,37 @@ uv run python clone_my_voice.py clone `
 
 `output/` 디렉터리에 복제된 음성 WAV 파일이 생성됩니다.
 
-## 여러 문장을 한 번에 생성
+## 긴 텍스트 생성
 
-`--text`에 여러 텍스트를 전달하면 배치로 생성됩니다.
+긴 텍스트를 입력하면 자동으로 문장 단위로 분할하여 생성한 뒤 하나의 WAV 파일로 합칩니다. 1분~7분 이상의 긴 오디오도 안정적으로 생성할 수 있습니다.
 
 ```bash
-uv run python clone_my_voice.py clone \
+uv run python -m app.clone clone \
     --ref-audio ref_audio/my_voice.wav \
     --ref-text "레퍼런스 대사" \
-    --text "첫 번째 문장" "두 번째 문장" "세 번째 문장" \
+    --text "긴 텍스트를 입력하세요. 여러 문장이 포함되어도 됩니다. 자동으로 분할되어 생성됩니다." \
+    --language Korean
+```
+
+진행 상황이 문장별로 출력됩니다:
+
+```
+[Text 1/1] 3 sentence(s)
+  [1/3] 긴 텍스트를 입력하세요...       2.1s
+  [2/3] 여러 문장이 포함되어도 됩니다...   1.8s
+  [3/3] 자동으로 분할되어 생성됩니다...    1.5s
+Saved: output/cloned_voice_000.wav (12.3s audio, 5.4s elapsed)
+```
+
+## 여러 텍스트를 한 번에 생성
+
+`--text`에 여러 텍스트를 전달하면 각각 별도의 WAV 파일로 생성됩니다.
+
+```bash
+uv run python -m app.clone clone \
+    --ref-audio ref_audio/my_voice.wav \
+    --ref-text "레퍼런스 대사" \
+    --text "첫 번째 텍스트" "두 번째 텍스트" "세 번째 텍스트" \
     --language Korean
 ```
 
