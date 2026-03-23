@@ -9,7 +9,6 @@ import soundfile as sf
 import torch
 from qwen_tts import Qwen3TTSModel
 
-from utility.extract import download_audio
 
 GEN_KWARGS = {
   "max_new_tokens": 2048,
@@ -169,16 +168,6 @@ def build_parser():
   )
   subparsers = parser.add_subparsers(dest="command", required=True)
 
-  extract_parser = subparsers.add_parser(
-    "extract-audio", help="YouTube 영상에서 오디오 추출"
-  )
-  extract_parser.add_argument("--url", required=True, help="YouTube URL")
-  extract_parser.add_argument(
-    "--output",
-    default="ref_audio",
-    help="출력 디렉터리 (default: ref_audio/)",
-  )
-
   clone_parser = subparsers.add_parser("clone", help="음성 복제")
   clone_parser.add_argument(
     "--ref-audio",
@@ -218,9 +207,7 @@ def build_parser():
 def main():
   args = build_parser().parse_args()
 
-  if args.command == "extract-audio":
-    download_audio(url=args.url, output_dir=args.output)
-  elif args.command == "clone":
+  if args.command == "clone":
     clone_voice(
       ref_audio=args.ref_audio,
       ref_text=read_text(args.ref_text),

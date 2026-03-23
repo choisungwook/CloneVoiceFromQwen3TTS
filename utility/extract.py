@@ -39,3 +39,23 @@ def print_next_steps():
   )
   print("2. 잘라낸 구간의 대사를 정확히 받아 적으세요 (ref-text로 사용).")
   print("3. clone 명령어를 실행하세요.")
+
+
+def main():
+  import argparse
+
+  parser = argparse.ArgumentParser(
+    description="YouTube 영상에서 레퍼런스 오디오용 WAV 파일 추출",
+  )
+  parser.add_argument("--url", required=True, help="YouTube URL")
+  parser.add_argument(
+    "--output",
+    default="ref_audio",
+    help="출력 디렉터리 (default: ref_audio/)",
+  )
+  args = parser.parse_args()
+  download_audio(url=args.url, output_dir=args.output)
+
+
+if __name__ == "__main__":
+  main()
