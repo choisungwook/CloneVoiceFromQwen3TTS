@@ -80,10 +80,25 @@ uv run python -m app.clone clone \
 
 ```
 [Text 1/1] 3 sentence(s)
-  [1/3] 긴 텍스트를 입력하세요...       2.1s
-  [2/3] 여러 문장이 포함되어도 됩니다...   1.8s
-  [3/3] 자동으로 분할되어 생성됩니다...    1.5s
+  [1/3] 긴 텍스트를 입력하세요...
+           2.1s
+  [2/3] 여러 문장이 포함되어도 됩니다...
+           1.8s
+  [3/3] 자동으로 분할되어 생성됩니다...
+           1.5s
 Saved: output/cloned_voice_000.wav (12.3s audio, 5.4s elapsed)
+```
+
+## 파일에서 텍스트 읽기
+
+`@파일경로` 형식으로 텍스트 파일을 지정할 수 있습니다.
+
+```bash
+uv run python -m app.clone clone \
+    --ref-audio ref_audio/my_voice.wav \
+    --ref-text @ref_audio/transcript.txt \
+    --text @scripts/script.txt \
+    --language Korean
 ```
 
 ## 여러 텍스트를 한 번에 생성

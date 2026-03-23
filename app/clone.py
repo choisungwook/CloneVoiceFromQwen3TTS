@@ -27,7 +27,13 @@ GEN_KWARGS = {
 
 def read_text(value: str) -> str:
   if value.startswith("@"):
-    file_path = Path(value[1:])
+    file_path = Path(value[1:]).expanduser()
+    if not file_path.exists():
+      print(f"ERROR: 파일을 찾을 수 없습니다: {file_path}")
+      sys.exit(1)
+    if not file_path.is_file():
+      print(f"ERROR: 파일이 아닙니다: {file_path}")
+      sys.exit(1)
     return file_path.read_text(encoding="utf-8").strip()
   return value
 
@@ -92,6 +98,8 @@ def generate_chunks(model, sentences, language, voice_prompt):
 
 
 def concatenate_wavs(wav_list, sr, pause_sec=0.3):
+  if not wav_list:
+    return np.array([], dtype=np.float32)
   pause = np.zeros(int(sr * pause_sec), dtype=wav_list[0].dtype)
   pieces = []
   for i, wav in enumerate(wav_list):
@@ -124,11 +132,13 @@ def clone_voice(
 
   for text_idx, text in enumerate(texts):
     sentences = split_sentences(text, language)
+    if not sentences:
+      print(f"\n[Text {text_idx + 1}/{len(texts)}] 빈 입력, 건너뜀")
+      continue
     print(f"\n[Text {text_idx + 1}/{len(texts)}] {len(sentences)} sentence(s)")
 
-    total_start = time.time()
-
     torch.cuda.synchronize()
+    total_start = time.time()
 
     if len(sentences) == 1:
       wavs, sr = model.generate_voice_clone(
